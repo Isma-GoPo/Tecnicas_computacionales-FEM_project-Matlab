@@ -39,7 +39,7 @@ Tipologia_file;
 % Dibujo de la malla
 % ==================
 DibujaMalla(XY,Topologia,Tipologia);
-% NOT COMMENT % pause;
+pause;
 
 %% Cálculo de matrices de elemento y ensamblado
 % =============================================
