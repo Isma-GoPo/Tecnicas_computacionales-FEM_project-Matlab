@@ -3,20 +3,20 @@ function [N,dN]=shape_f_1d(Coor,Grado,is_dN_calculated);
 % y derivadas en un punto
 
 %
-% IMPORTANTE: en la numeración de nodos, los nodos 
-% vértice son los primeros. Después de estos se numeran
+% IMPORTANTE: en la numeraciÃ³n de nodos, los nodos 
+% vÃ©rtice son los primeros. DespuÃ©s de estos se numeran
 % los nodos de mitad de lado.
 %
-% Coor       = coordenadas (X=psi e Y=eta)
+% Coor       = coordenadas (X=xi e Y=eta)
 % Grado      = Grado del elemento
-% NLadosElem = Núm de lados del elem (1, 3 ó 4)
-% is_dN_calculated      = indicador de cálculo de dN 
+% NladosElem = NÃºm de Nlados del elem (1, 3 Ã³ 4)
+% is_dN_calculated      = indicador de cÃ¡lculo de dN 
 %                 0    ==> no se calcula
 %                 else ==> se calcula la derivada
 % SALIDA
 %   N        = Matriz de funciones de forma. Cada fila corresponde
 %              a las funciones de forma en un punto de coord (x,y)
-%   dNpsi    = Derivada de matrices de funciones de forma respecto a psi
+%   dNxi    = Derivada de matrices de funciones de forma respecto a xi
 
 
 
@@ -58,7 +58,7 @@ X=Coor(:,1)';
       end  
    
       otherwise %Elementos lineales de grado superior
-      disp(['Grado polinómico ' num2str(Grado)...
+      disp(['Grado polinÃ³mico ' num2str(Grado)...
             'No programado para elementos lineales']);
       error('parando');
       end

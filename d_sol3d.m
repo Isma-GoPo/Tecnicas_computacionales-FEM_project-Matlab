@@ -1,9 +1,9 @@
-function d_sol3d(XY,Top,Sol,Param)
+function d_sol3d(XY,Topologia,Sol,Tipologia)
 
-Nel  = Param.Nel;
-NNpe = Param.NNpe;
+Nelementos  = Tipologia.Nelementos;
+Nnodos_por_elemento = Tipologia.Nnodos_por_elemento;
 
-switch NNpe
+switch Nnodos_por_elemento
     case 3
         Reord=[1,2,3];
         SubEls=[1,2,3]';
@@ -33,14 +33,14 @@ switch NNpe
             4,6,8]';
         SubElsNum=6;
 end
-Top=Top(Reord,:);
+Topologia=Topologia(Reord,:);
 
 
 colormap jet
 axis equal
 grid on
 
-% Tamaño de dibujo de malla
+% TamaÃ±o de dibujo de malla
 % -------------------------
 Xmin=min(XY(1,:));    Xmax=max(XY(1,:));
 Ymin=min(XY(2,:));    Ymax=max(XY(2,:));
@@ -48,11 +48,11 @@ Xplot=[(Xmin-(Xmax-Xmin)/8) (Xmax+(Xmax-Xmin)/8) ];
 Yplot=[(Ymin-(Ymax-Ymin)/8) (Ymax+(Ymax-Ymin)/8) ];
 axis([Xplot Yplot]);
 
-% Dibujo de Solución  nodal (3D)
+% Dibujo de SoluciÃ³n  nodal (3D)
 % ------------------------------
 hold on
-for iElem=1:Nel
-    Ne=Top(:,iElem);
+for iElem=1:Nelementos
+    Ne=Topologia(:,iElem);
     XYe=XY(:,Ne);
     Se=Sol(Ne);
     %fill3(XYe(1,:),XYe(2,:),Se,Se);

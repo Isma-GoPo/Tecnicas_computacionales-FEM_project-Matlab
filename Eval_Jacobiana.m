@@ -1,9 +1,9 @@
-function Ja = Eval_Jacobiana(XYe,PsiEtaPt,Param)
+function Ja = Eval_Jacobiana(XYe,xiEtaPt,Tipologia)
 
-Tipo = Param.Tipo;
-Lados = Param.Lados;
+grado_polinomio = Tipologia.grado_polinomio;
+Nlados = Tipologia.Nlados;
 
-[~,dNpsi,dNeta] = shape_f_2d(PsiEtaPt,Tipo,Lados,1);  
+[~,dNxi,dNeta] = shape_f_2d(xiEtaPt,grado_polinomio,Nlados,1);  
 
-Ja = [dNpsi*XYe(:,1) , dNpsi*XYe(:,2); ...
+Ja = [dNxi*XYe(:,1) , dNxi*XYe(:,2); ...
       dNeta*XYe(:,1) , dNeta*XYe(:,2)];

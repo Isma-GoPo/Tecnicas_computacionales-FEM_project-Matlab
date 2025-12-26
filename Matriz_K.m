@@ -1,53 +1,53 @@
-function [K,DB]=Matriz_K(XY,Top,D,Param)
-% Cálculo de matrices de elemento y ensamblado
+function [K,DB]=Matriz_K(XY,Topologia,D,Tipologia)
+% CÃ¡lculo de matrices de elemento y ensamblado
 % ============================================
 
-Nnod = Param.Nnod;
-Nel  = Param.Nel;
-NNpe = Param.NNpe;
-Lados= Param.Lados;
-NPGe = Param.NPGe;
-Tipo = Param.Tipo;
+Nnodos = Tipologia.Nnodos;
+Nelementos  = Tipologia.Nelementos;
+Nnodos_por_elemento = Tipologia.Nnodos_por_elemento;
+Nlados= Tipologia.Nlados;
+Npuntos_integracion = Tipologia.Npuntos_integracion;
+grado_polinomio = Tipologia.grado_polinomio;
 
-K=sparse((2*Nnod),(2*Nnod)); 
+K=sparse((2*Nnodos),(2*Nnodos)); 
 % Las sparse son matrices donde se guarda las coordenadas x, y, con el valor. 
-%   Están hechas para matrices muy vacías -> Cuando hay muchos ceros, estos
+%   EstÃ¡n hechas para matrices muy vacÃ­as -> Cuando hay muchos ceros, estos
 %   no se registran. 
-DB=zeros(3,2*NNpe,NPGe,Nel);
+DB=zeros(3,2*Nnodos_por_elemento,Npuntos_integracion,Nelementos);
 
 % Coordenadas locales y pesos de los puntos de Gauss
 Dimensiones=2;
-[XYG, W] = pgauss(Dimensiones,Lados,NPGe); 
+[XYG, W] = pgauss(Dimensiones,Nlados,Npuntos_integracion); 
 % Funciones de forma y sus derivadas en los puntos de Gauss
-[N,dNpsi,dNeta] = shape_f_2d(XYG,Tipo,Lados,1);
+[N,dNxi,dNeta] = shape_f_2d(XYG,grado_polinomio,Nlados,1);
 
-gdlx=1:2:(2*NNpe-1); %gdl locales del elemento en x
-gdly=2:2:2*NNpe;     %gdl locales del elemento en y
+gdlx=1:2:(2*Nnodos_por_elemento-1); %gdl locales del elemento en x
+gdly=2:2:2*Nnodos_por_elemento;     %gdl locales del elemento en y
 
 % Lazo para todos los elementos
 % -----------------------------
-for iElm=1:Param.Nel
-    Ne=Top(:,iElm);  %Nodos del elemento
+for i_elemento=1:Tipologia.Nelementos
+    Ne=Topologia(:,i_elemento);  %Nodos del elemento
     XYe=XY(:,Ne)';
-    Ke=zeros(2*NNpe,2*NNpe);
+    Ke=zeros(2*Nnodos_por_elemento,2*Nnodos_por_elemento);
     % Lazo en Puntos de Gauss
-    for PtG = 1:Param.NPGe
+    for i_punto_integracion = 1:Tipologia.Npuntos_integracion
         % Matriz Jacobiana
-        Ja = MatrizJacobiana(dNpsi,dNeta,XYe,PtG);
-        InvJa=inv(Ja);
+        Jacobiano = MatrizJacobiana(dNxi,dNeta,XYe,i_punto_integracion);
+        InvJacobiano=inv(Jacobiano);
         % Matriz de Derivadas de N respecto de las coordenadas locales
-        dNloc = [dNpsi(PtG,:); dNeta(PtG,:)];        
+        dNloc = [dNxi(i_punto_integracion,:); dNeta(i_punto_integracion,:)];        
         % Matriz B
-        dNglo = InvJa*dNloc;
-        B=zeros(3,2*NNpe);
+        dNglo = InvJacobiano*dNloc;
+        B=zeros(3,2*Nnodos_por_elemento);
         B(1,gdlx)=dNglo(1,:);
         B(2,gdly)=dNglo(2,:);
         B(3,gdlx)=dNglo(2,:);
         B(3,gdly)=dNglo(1,:);
-        % Matriz D·B en cada punto de Gauss
-        DB(:,:,PtG,iElm)=D*B;
-        % Matriz K de elemento (aportación de cada punto de Gauss)
-        Ke = Ke + B'*D*B*det(Ja)*W(PtG);
+        % Matriz DÂ·B en cada punto de Gauss
+        DB(:,:,i_punto_integracion,i_elemento)=D*B;
+        % Matriz K de elemento (aportaciÃ³n de cada punto de Gauss)
+        Ke = Ke + B'*D*B*det(Jacobiano)*W(i_punto_integracion);
     end
     Ke=(Ke+Ke')/2; % para que Ke sea perfectamente simetrica
     % grados de libertad globales en el elemento

@@ -1,14 +1,14 @@
-function [Coordenadas,Pesos]=pgauss(Dimensiones,NLadosElem,NumPuntos,ClasePuntos)
-%C·lculo de coordenadas y pesos de ptos de Gauss
-%para tri·ngulos de vÈrtices (0,0),(1,0),(0,1)
-%y cuadril·teros de vÈrtices (-1,-1),(-1,1), (1,1) (1,-1)
+function [Coordenadas,Pesos]=pgauss(Dimensiones,NladosElem,NumPuntos,ClasePuntos)
+%C√°lculo de coordenadas y pesos de ptos de Gauss
+%para tri√°ngulos de v√©rtices (0,0),(1,0),(0,1)
+%y cuadril√°teros de v√©rtices (-1,-1),(-1,1), (1,1) (1,-1)
 %
-%Variables por par·metro
-%Dimensiones  1 para integral contorno, 2 para integral de ·rea
-%NLadosElem   N˙mero de lados del elemento (3 tri·ngulos, 4 cuadril·teros)
-%NumPuntos    N˙mero de ptos de integraciÛn total
-%ClasePuntos  Conjunto de ptos de integraciÛn que se toma. Sirve para diferenciar
-%             reglas de cuadratura con igual n˙mero de ptos de integraciÛn
+%Variables por par√°metro
+%Dimensiones  1 para integral contorno, 2 para integral de √°rea
+%NladosElem   N√∫mero de Nlados del elemento (3 tri√°ngulos, 4 cuadril√°teros)
+%NumPuntos    N√∫mero de ptos de integraci√≥n total
+%ClasePuntos  Conjunto de ptos de integraci√≥n que se toma. Sirve para diferenciar
+%             reglas de cuadratura con igual n√∫mero de ptos de integraci√≥n
 
 %=================================================================================
 if exist('ClasePuntos')==0
@@ -17,17 +17,17 @@ end
 
 if Dimensiones==1 %INTEGRALES DE CONTORNO
     switch NumPuntos
-        case 1 %IntegraciÛn exacta de polinomios de grado P=1
+        case 1 %Integraci√≥n exacta de polinomios de grado P=1
             Coordenadas=[0];
             Pesos=[2];
-        case 2 %IntegraciÛn exacta de polinomios de grado P=3
+        case 2 %Integraci√≥n exacta de polinomios de grado P=3
             Coordenadas=[...
                 -0.577350269189626;...
                 +0.577350269189626];
             Pesos=[...
                 1;...
                 1];
-        case 3 %IntegraciÛn exacta de polinomios de grado P=5
+        case 3 %Integraci√≥n exacta de polinomios de grado P=5
             Coordenadas=[...
                 -0.774596669241483; ...
                 0; ...
@@ -36,7 +36,7 @@ if Dimensiones==1 %INTEGRALES DE CONTORNO
                 0.55555555555555556; ...
                 0.8888888888888888889; ...
                 0.55555555555555556];
-        case 4 %IntegraciÛn exacta de polinomios de grado P=7
+        case 4 %Integraci√≥n exacta de polinomios de grado P=7
             Coordenadas=[-0.861136311594953; ...
                 -0.339981043584856; ...
                 +0.861136311594953; ...
@@ -45,7 +45,7 @@ if Dimensiones==1 %INTEGRALES DE CONTORNO
                 0.652145154862546; ...
                 0.652145154862546; ...
                 0.347854845137454];
-        case 5 %IntegraciÛn exacta de polinomios de grado P=9
+        case 5 %Integraci√≥n exacta de polinomios de grado P=9
             Coordenadas=[...
                 -0.906179845938664; ...
                 -0.538469310105683; ...
@@ -60,16 +60,16 @@ if Dimensiones==1 %INTEGRALES DE CONTORNO
                 0.236926885056189];
 
         otherwise
-            disp (['Para una dimensiÛn no est·n implementados '...
+            disp (['Para una dimensi√≥n no est√°n implementados '...
                 'NumPuntos = ',num2str(NumPuntos)]);
             error('Parando');
     end
 
     %=========================================================================
 else  %Dimensiones = 2 : INTEGRALES DE SUPERFICIE
-    switch NLadosElem
+    switch NladosElem
         %----------------------------------------------------------------------
-        case 3 %Integrales de superficie en TRI¡NGULOS
+        case 3 %Integrales de superficie en TRI√ÅNGULOS
             switch NumPuntos
                 case 1
                     Coordenadas=[1/3,1/3];
@@ -103,7 +103,7 @@ else  %Dimensiones = 2 : INTEGRALES DE SUPERFICIE
                         25/96];
                                
                 otherwise
-                    disp (['Para ¡reas triangulares no est·n implementados '...
+                    disp (['Para √Åreas triangulares no est√°n implementados '...
                         'NumPuntos = ',num2str(NumPuntos)]);
                     error('parando');
             end
@@ -236,14 +236,14 @@ else  %Dimensiones = 2 : INTEGRALES DE SUPERFICIE
                          0.056134348862429];
 
                 otherwise
-                    disp (['Para ¡reas de Cuadril·teros no est·n implementados '...
+                    disp (['Para √Åreas de Cuadril√°teros no est√°n implementados '...
                         'NumPuntos = ',num2str(NumPuntos)]);
                     error('Parando...');
             end
             %------------------------------------------------------------------
         otherwise
-            disp (['Se ha especificado un elemento de ',num2str(NLadosElem),...
-                ' lados. No implementado']);
+            disp (['Se ha especificado un elemento de ',num2str(NladosElem),...
+                ' Nlados. No implementado']);
             error('Parando...');
 
     end

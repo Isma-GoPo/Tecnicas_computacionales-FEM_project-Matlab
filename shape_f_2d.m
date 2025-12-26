@@ -1,22 +1,22 @@
-function [N,dNpsi,dNeta]=shape_f_2d(Coor,Grado,NLadosElem,dN_is_calculated)
+function [N,dNxi,dNeta]=shape_f_2d(Coor,Grado,NladosElem,dN_is_calculated)
 % =========================================================================
 % funciones de forma y derivadas en un punto para triangulos y 
-% cuadrilateros en coordenadas locales x=psi y y=eta
+% cuadrilateros en coordenadas locales x=xi y y=eta
 % =========================================================================
 % IMPORTANTE: en la numeracion de nodos, los nodos 
 % vertice son los primeros. Despues de estos se numeran
 % los nodos de mitad de lado.
 %
-% Coor       = coordenadas (X=psi e Y=eta)
+% Coor       = coordenadas (X=xi e Y=eta)
 % Grado      = Grado del elemento
-% NLadosElem = Num de lados del elem (1, 3 � 4)
+% NladosElem = Num de Nlados del elem (1, 3 � 4)
 % dN_is_calculated      = indicador de calculo de dN 
 %                 0    ==> no se calcula
 %                 else ==> se calcula la derivada
 % SALIDA
 %   N        = Matriz de funciones de forma. Cada fila corresponde
 %              a las funciones de forma en un punto de coord (x,y)
-%   dNpsi    = Derivada de matrices de funciones de forma respecto a psi
+%   dNxi    = Derivada de matrices de funciones de forma respecto a xi
 %   dNeta    = Derivada de matrices de funciones de forma respecto a eta
 
 
@@ -27,7 +27,7 @@ end
 X=Coor(:,1)';
 Y=Coor(:,2)';
 
-switch NLadosElem
+switch NladosElem
     
 case 3 % TRIANGULOS -----------------------------  
    switch Grado
@@ -119,7 +119,7 @@ case 4 % CUADRILATEROS--------------------------------
       error('parando');
    end
 otherwise
-   disp (['Se ha especificado un elemento de ',num2str(NLadosElem),' lados']);
+   disp (['Se ha especificado un elemento de ',num2str(NladosElem),' Nlados']);
    error('parando');
    
 end 
@@ -128,10 +128,10 @@ N=N';
 dN=dN';
   
 if dN_is_calculated ==0
-    dNpsi=[];
+    dNxi=[];
     dNeta=[];
 else 
-    dNpsi=dN(1:size(Coor,1),:);
+    dNxi=dN(1:size(Coor,1),:);
     dNeta=dN(size(Coor,1)+1:end,:);
 end
   

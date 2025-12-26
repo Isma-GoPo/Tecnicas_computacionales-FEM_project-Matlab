@@ -1,8 +1,8 @@
-function DibujaMalla(XY,Top,Param)
+function DibujaMalla(XY,Topologia,Tipologia)
 clf
 axis equal
-% Evaluar reordenamiento de la numeración de los nodos
-switch Param.NNpe
+% Evaluar reordenamiento de la numeraciÃ³n de los nodos
+switch Tipologia.Nnodos_por_elemento
     case 3
         Reord=[1,2,3];
     case 4
@@ -13,9 +13,9 @@ switch Param.NNpe
         Reord=[1,5,2,6,3,7,4,8];
 end
 
-Top=Top(Reord,:);
+Topologia=Topologia(Reord,:);
 
-% Obtención de escalas de dibujo
+% ObtenciÃ³n de escalas de dibujo
 % ------------------------------
 Xmin = min(XY(1,:));
 Xmax = max(XY(1,:));
@@ -31,21 +31,21 @@ axis([Xplot Yplot]);
 hold on
 title('Malla')
 
-for i=1:Param.Nel
-    Ne = Top(:,i)
+for i=1:Tipologia.Nelementos
+    Ne = Topologia(:,i)
     XYe = XY(:,Ne)
     H = fill(XYe(1,:), XYe(2,:), 'g')
     
-    if Param.Nel<100
-        XYc=sum(XYe,2)/NNpE;
+    if Tipologia.Nelementos<100
+        XYc=sum(XYe,2)/Nnodos_por_elemento;
         h=text(XYc(1),XYc(2),num2str(i));  set(h,'Color',[0,0,1]);
     end
 end
     
-% Numeración de nodos
+% NumeraciÃ³n de nodos
 % -------------------
-if Param.Nel<100
-    for i= 1:Param.Nnod
+if Tipologia.Nelementos<100
+    for i= 1:Tipologia.Nnodos
         text(XY(1,i),XY(2,i),num2str(i));
     end
 end

@@ -1,4 +1,4 @@
-function F=Vector_Ft(XY,CargasL,Param)
+function F=Vector_Ft(XY,CargasL,Tipologia)
 
 % Ensamblado del vector de carga
 % ==============================
@@ -15,7 +15,7 @@ gdly=2:2:2*NNpS;   % gdl locales del segmento en y
 % Evaluar funciones de forma y sus derivadas en los puntos anteriores
 
 
-% Lazo para todas las condiciones de cargas en lados
+% Lazo para todas las condiciones de cargas en Nlados
 
 
 % POR EL MOMENTO...
