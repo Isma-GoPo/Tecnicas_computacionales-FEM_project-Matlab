@@ -1,0 +1,10 @@
+def a(s):
+    return s.replace(",", ";")
+
+def b(s):
+    return "[...\n                        " + s.replace("\n  ", "; ...\n                        ") + "];"
+    
+print(b(""" 1
+     1
+     1
+     1"""))
