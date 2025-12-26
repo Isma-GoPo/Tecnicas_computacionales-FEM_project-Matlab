@@ -1,4 +1,4 @@
-function [N,dN]=shape_f_1d(Coor,Grado,CaldN);
+function [N,dN]=shape_f_1d(Coor,Grado,is_dN_calculated);
 % funciones de forma
 % y derivadas en un punto
 
@@ -10,7 +10,7 @@ function [N,dN]=shape_f_1d(Coor,Grado,CaldN);
 % Coor       = coordenadas (X=psi e Y=eta)
 % Grado      = Grado del elemento
 % NLadosElem = Núm de lados del elem (1, 3 ó 4)
-% CaldN      = indicador de cálculo de dN 
+% is_dN_calculated      = indicador de cálculo de dN 
 %                 0    ==> no se calcula
 %                 else ==> se calcula la derivada
 % SALIDA
@@ -23,7 +23,7 @@ function [N,dN]=shape_f_1d(Coor,Grado,CaldN);
 global N dN
 
 if nargin==2
-    CaldN=0;
+    is_dN_calculated=0;
 end
     
 X=Coor(:,1)';
@@ -34,7 +34,7 @@ X=Coor(:,1)';
       N=[...
             (1/2).*(1-X);...
             (1/2).*(1+X)];
-      if CaldN==0
+      if is_dN_calculated==0
          dN=0;
       else 
          dN=[...
@@ -48,7 +48,7 @@ X=Coor(:,1)';
             (1/2).*X.*(X+1);...
             1-X.^2];
           
-      if CaldN==0
+      if is_dN_calculated==0
          dN=0;
       else 
          dN=[...

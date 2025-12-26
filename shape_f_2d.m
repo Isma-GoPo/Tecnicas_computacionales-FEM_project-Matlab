@@ -1,4 +1,4 @@
-function [N,dNpsi,dNeta]=shape_f_2d(Coor,Grado,NLadosElem,CaldN)
+function [N,dNpsi,dNeta]=shape_f_2d(Coor,Grado,NLadosElem,dN_is_calculated)
 % =========================================================================
 % funciones de forma y derivadas en un punto para triangulos y 
 % cuadrilateros en coordenadas locales x=psi y y=eta
@@ -10,7 +10,7 @@ function [N,dNpsi,dNeta]=shape_f_2d(Coor,Grado,NLadosElem,CaldN)
 % Coor       = coordenadas (X=psi e Y=eta)
 % Grado      = Grado del elemento
 % NLadosElem = Num de lados del elem (1, 3 � 4)
-% CaldN      = indicador de calculo de dN 
+% dN_is_calculated      = indicador de calculo de dN 
 %                 0    ==> no se calcula
 %                 else ==> se calcula la derivada
 % SALIDA
@@ -21,7 +21,7 @@ function [N,dNpsi,dNeta]=shape_f_2d(Coor,Grado,NLadosElem,CaldN)
 
 
 if nargin==3
-    CaldN=0;
+    dN_is_calculated=0;
 end
     
 X=Coor(:,1)';
@@ -36,11 +36,11 @@ case 3 % TRIANGULOS -----------------------------
             1-X-Y;...
             X;...
             Y];
-      if CaldN==0
+      if dN_is_calculated==0
          dN=0;
       else
          dN=[...
-               -1+0.*X,-1+0.*X;...
+               -1+0.*X,-1+0.*X;...  % 0.*X se usa para mantener el tamaño del vector
                +1+0.*X, 0+0.*X;...
                0+0.*X, 1+0.*X];
       end
@@ -53,7 +53,7 @@ case 3 % TRIANGULOS -----------------------------
             4*X.*(1-X-Y);...
             4*X.*Y;...
             4*Y.*(1-X-Y)];
-      if CaldN==0
+      if dN_is_calculated==0
          dN=0;
       else
          dN=[...
@@ -79,7 +79,7 @@ case 4 % CUADRILATEROS--------------------------------
             (1-Y).*(1+X)/4;...
             (1+Y).*(1+X)/4;...
             (1+Y).*(1-X)/4];
-      if CaldN==0
+      if dN_is_calculated==0
          dN=0; 
       else
          dN=[...
@@ -99,7 +99,7 @@ case 4 % CUADRILATEROS--------------------------------
             (1-Y.^2).*(1+X)/2;...
             (1-X.^2).*(1+Y)/2;...
             (1-Y.^2).*(1-X)/2];...
-      if CaldN==0
+      if dN_is_calculated==0
          dN=0; 
       else
          dN=[...
@@ -127,12 +127,12 @@ end
 N=N';
 dN=dN';
   
-if CaldN ~=0
-    dNpsi=dN(1:size(Coor,1),:);
-    dNeta=dN(size(Coor,1)+1:end,:);
-else 
+if dN_is_calculated ==0
     dNpsi=[];
     dNeta=[];
+else 
+    dNpsi=dN(1:size(Coor,1),:);
+    dNeta=dN(size(Coor,1)+1:end,:);
 end
   
 return;

@@ -39,7 +39,7 @@ Parametros;
 % Dibujo de la malla
 % ==================
 DibujaMalla(XY,Top,Param);
-pause;
+% pause;
 
 %% Cálculo de matrices de elemento y ensamblado
 % =============================================
