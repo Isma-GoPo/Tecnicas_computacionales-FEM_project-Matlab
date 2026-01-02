@@ -36,14 +36,14 @@ for i_elemento=1:Tipologia.Nelementos
         Jacobiano = MatrizJacobiana(dNxi,dNeta,XYe,i_punto_integracion);
         InvJacobiano=inv(Jacobiano);
         % Matriz de Derivadas de N respecto de las coordenadas locales
-        dNloc = [dNxi(i_punto_integracion,:); dNeta(i_punto_integracion,:)];        
+        dNlocal = [dNxi(i_punto_integracion,:); dNeta(i_punto_integracion,:)];        
         % Matriz B
-        dNglo = InvJacobiano*dNloc;
+        dNglobal = InvJacobiano*dNlocal;
         B=zeros(3,2*Nnodos_por_elemento);
-        B(1,gdlx)=dNglo(1,:);
-        B(2,gdly)=dNglo(2,:);
-        B(3,gdlx)=dNglo(2,:);
-        B(3,gdly)=dNglo(1,:);
+        B(1,gdlx)=dNglobal(1,:);
+        B(2,gdly)=dNglobal(2,:);
+        B(3,gdlx)=dNglobal(2,:);
+        B(3,gdly)=dNglobal(1,:);
         % Matriz D·B en cada punto de Gauss
         DB(:,:,i_punto_integracion,i_elemento)=D*B;
         % Matriz K de elemento (aportación de cada punto de Gauss)
